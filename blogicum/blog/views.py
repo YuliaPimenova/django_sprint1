@@ -45,15 +45,15 @@ posts = [
 
 
 def index(request):
-    template_name = 'index.html'
+    template_name = 'blog/index.html'
     return render(request, template_name)
 
 
-def post_detail(request):
-    template_name = 'detail.html'
+def post_detail(request, pk):
+    template_name = 'blog/detail.html'
     return render(request, template_name)
 
 
-def category_posts(request):
-    template_name = 'category.html'
+def category_posts(request, pk):
+    template_name = 'blog/category.html'
     return render(request, template_name)

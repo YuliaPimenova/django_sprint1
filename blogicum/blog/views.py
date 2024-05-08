@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render
 
 
-posts = [
+posts: list[dict] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -45,21 +45,18 @@ posts = [
     },
 ]
 
+posts_by_id: dict[int, dict] = {post['id']: post for post in posts}
+
 
 def index(request):
-    template_name = 'blog/index.html'
-    return render(request, template_name, {'post': posts})
+    return render(request, 'blog/index.html', {'post': posts_by_id.values()})
 
 
 def post_detail(request, id):
-    template_name = 'blog/detail.html'
-    for elem in posts:
-        if elem['id'] == id:
-            context = {'post': posts[id]}
-            return render(request, template_name, context)
-    raise Http404(f'Пост {id} не найден.')
+    if id not in posts_by_id.keys():
+        raise Http404(f'Пост {id} не найден.')
+    return render(request, 'blog/detail.html', {'post': posts_by_id[id]})
 
 
 def category_posts(request, category_slug):
-    template_name = 'blog/category.html'
-    return render(request, template_name, {'category': category_slug})
+    return render(request, 'blog/category.html', {'category': category_slug})

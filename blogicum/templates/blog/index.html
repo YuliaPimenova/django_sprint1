@@ -4,7 +4,7 @@
 
 {% block content %}
   <h1>Лента записей</h1>
-  {% for elem in post %}
+  {% for elem in post reversed %}
     <hr>
     <article>
       <ul>
@@ -19,7 +19,7 @@
         </li>
       </ul>
       <p>
-        {{ elem.text|truncatewords:10 }}
+        {{ elem.text|linebreaksbr|truncatewords:10 }}
       </p>
       <a href="{% url 'blog:post_detail' elem.id %}">Читать полный текст</a>
     </article>

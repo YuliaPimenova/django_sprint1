@@ -1,4 +1,6 @@
+from django.http import Http404
 from django.shortcuts import render
+
 
 posts = [
     {
@@ -49,12 +51,15 @@ def index(request):
     return render(request, template_name, {'post': posts})
 
 
-def post_detail(request, pk):
+def post_detail(request, id):
     template_name = 'blog/detail.html'
-    context = {'post': posts[pk]}
-    return render(request, template_name, context)
+    for elem in posts:
+        if elem['id'] == id:
+            context = {'post': posts[id]}
+            return render(request, template_name, context)
+    raise Http404(f'Пост {id} не найден.')
 
 
-def category_posts(request, category):
+def category_posts(request, category_slug):
     template_name = 'blog/category.html'
-    return render(request, template_name, {'category': category})
+    return render(request, template_name, {'category': category_slug})
